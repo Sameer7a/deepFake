@@ -168,7 +168,7 @@ export default function Home() {
       if (file) formData.append('image', file);
       formData.append('text_message', text);
 
-      const response = await fetch('http://localhost:8000/api/analyze', {
+      const response = await fetch('/api/analyze', {
         method: 'POST',
         body: formData,
       });
