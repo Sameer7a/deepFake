@@ -11,7 +11,7 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "scanWithRaksha") {
     // URL of the live deployed Vercel app
-    const rakshaUrl = "https://deep-fake-ten.vercel.app";
+    const rakshaUrl = "https://frontend-brwr.vercel.app";
     
     // Open the Raksha dashboard in a new tab
     chrome.tabs.create({ url: rakshaUrl });
@@ -20,5 +20,5 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
 // Also open the dashboard if the user clicks the extension icon in the toolbar
 chrome.action.onClicked.addListener((tab) => {
-  chrome.tabs.create({ url: "https://deep-fake-ten.vercel.app" });
+  chrome.tabs.create({ url: "https://frontend-brwr.vercel.app" });
 });
