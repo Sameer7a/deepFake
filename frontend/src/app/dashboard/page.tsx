@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 export default function Dashboard() {
-  // Simulated global stats for the hackathon pitch
+  // Simulated global stats for the platform
   const stats = {
     threatsPrevented: "14,208",
     activeCampaigns: "43",

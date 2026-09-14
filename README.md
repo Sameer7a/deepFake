@@ -2,7 +2,7 @@
 
 > **Proactive AI Shield against Deepfake Sextortion & Blackmail**
 
-![Raksha Banner](https://img.shields.io/badge/Status-Hackathon_Ready-success?style=for-the-badge)
+![Raksha Banner](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
 ![NextJS](https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
 ![Google Gemini](https://img.shields.io/badge/Google_Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white)
@@ -89,7 +89,7 @@ npm run dev
 
 ---
 
-## 🏆 Hackathon Presentation Flow
+## 🏆 System Workflow
 1. **The Hook**: Explain the rising problem of deepfake sextortion.
 2. **The Demo**: Log in with a 10-digit phone number (watch the dynamic UI hide the password field!).
 3. **The Core Magic**: Upload a sample image and an extortion text. Run the scanner.
