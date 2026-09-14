@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "RAKSHA Sentinel",
+  "version": "1.0",
+  "description": "Proactive AI Shield against Deepfake Sextortion. Scan suspicious images instantly.",
+  "permissions": ["contextMenus", "activeTab"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Open RAKSHA Dashboard"
+  }
+}
