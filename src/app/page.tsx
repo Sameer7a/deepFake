@@ -50,6 +50,7 @@ export default function Home() {
   const [result, setResult] = useState<any>(null);
   const [blockModalState, setBlockModalState] = useState<'hidden' | 'input' | 'blocking' | 'success'>('hidden');
   const [attackerId, setAttackerId] = useState('');
+  const [reportAttacker, setReportAttacker] = useState('');
 
   const finalizeAuth = (isRegistering: boolean, finalUserName: string, userEmail: string, userPass: string) => {
     if (isRegistering) {
@@ -339,7 +340,7 @@ export default function Home() {
           
           {/* Dynamic User Profile */}
           <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-400 hidden sm:inline-block">Logged in as <strong className="text-white">{storedName}</strong></span>
+            <span className="text-sm text-gray-400">Logged in as <strong className="text-white">{storedName}</strong></span>
             <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-red-500 to-orange-500 flex items-center justify-center font-bold text-sm shadow-lg">
               {getInitials(storedName)}
             </div>
@@ -460,8 +461,11 @@ export default function Home() {
               </button>
               <button 
                 onClick={() => {
-                  alert("Generating Evidence Report. Please save the following page as a PDF and submit it to your local Cyber Crime portal (e.g., cybercrime.gov.in).");
-                  window.print();
+                  const info = prompt("Please enter the attacker's phone number, email, or username to include in the Official Report:");
+                  if (info !== null) {
+                    setReportAttacker(info || 'Not provided');
+                    setTimeout(() => window.print(), 500);
+                  }
                 }}
                 className="bg-gray-800 text-white px-4 py-2 rounded font-bold hover:bg-black transition-colors w-full sm:w-auto flex items-center justify-center gap-2 border border-gray-700"
               >
@@ -577,6 +581,60 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* Official PDF Report (Only visible when printing) */}
+      <div className="hidden print:block absolute top-0 left-0 w-full bg-white text-black p-8 z-[100] min-h-screen">
+        <div className="flex justify-between items-center border-b-4 border-red-600 pb-4 mb-8">
+          <div>
+            <h1 className="text-4xl font-black text-gray-900">RAKSHA</h1>
+            <p className="text-lg text-gray-600 font-bold tracking-widest">CYBER THREAT EVIDENCE REPORT</p>
+          </div>
+          <div className="text-right text-sm text-gray-500">
+            <p><strong>Date:</strong> {new Date().toLocaleDateString()}</p>
+            <p><strong>Time:</strong> {new Date().toLocaleTimeString()}</p>
+          </div>
+        </div>
+
+        <div className="mb-8 bg-gray-100 p-6 rounded-lg border border-gray-300">
+          <h2 className="text-xl font-bold border-b border-gray-300 pb-2 mb-4">Case Details</h2>
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div><strong>Reporting User:</strong> {storedName}</div>
+            <div><strong>Attacker Details:</strong> {reportAttacker}</div>
+            <div><strong>Platform:</strong> Meta (Cross-Network)</div>
+            <div><strong>Report ID:</strong> RAK-{Math.floor(Math.random() * 1000000)}</div>
+          </div>
+        </div>
+
+        {result && (
+          <div className="mb-8">
+            <h2 className="text-xl font-bold border-b border-gray-300 pb-2 mb-4">AI Analysis Results</h2>
+            <div className="grid grid-cols-3 gap-6 mb-6">
+              <div className="bg-gray-50 p-4 border border-gray-200 rounded text-center">
+                <div className="text-gray-500 text-xs font-bold uppercase mb-1">Deepfake Prob.</div>
+                <div className={`text-2xl font-black ${result.deepfake_score > 50 ? 'text-red-600' : 'text-green-600'}`}>{result.deepfake_score}%</div>
+              </div>
+              <div className="bg-gray-50 p-4 border border-gray-200 rounded text-center">
+                <div className="text-gray-500 text-xs font-bold uppercase mb-1">Extortion Intent</div>
+                <div className={`text-2xl font-black ${result.extortion_score > 50 ? 'text-red-600' : 'text-green-600'}`}>{result.extortion_score}%</div>
+              </div>
+              <div className="bg-gray-50 p-4 border border-gray-200 rounded text-center">
+                <div className="text-gray-500 text-xs font-bold uppercase mb-1">Overall Risk</div>
+                <div className={`text-2xl font-black ${result.risk_score >= 80 ? 'text-red-600' : 'text-green-600'}`}>{result.risk_score}/100</div>
+              </div>
+            </div>
+            
+            <div className="bg-red-50 p-6 border-l-4 border-red-600">
+              <h3 className="font-bold text-red-800 mb-2">Automated Threat Reasoning:</h3>
+              <p className="text-gray-800 text-sm leading-relaxed">{result.reasoning}</p>
+            </div>
+          </div>
+        )}
+
+        <div className="mt-16 text-center text-xs text-gray-400 border-t border-gray-200 pt-8">
+          <p>This report was generated automatically by the RAKSHA Sentinel AI System.</p>
+          <p>Please attach this document when filing a report at <strong>cybercrime.gov.in</strong> or submitting to local authorities.</p>
+        </div>
+      </div>
 
     </div>
   );
