@@ -352,12 +352,19 @@ export default function Home() {
       <main className="max-w-4xl mx-auto flex flex-col items-center gap-8 p-8 mt-4">
         
         {/* Header */}
-        <div className="text-center space-y-4">
-          <h1 className="text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-500">
-            SENTINEL / RAKSHA
+        <div className="text-center space-y-4 mb-4">
+          <div className="inline-flex items-center gap-2 bg-gray-900 border border-gray-800 rounded-full px-3 py-1 text-xs font-bold text-gray-300 shadow-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            Core Systems Online
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white">
+            RAKSHA <span className="text-gray-500 font-light">| Sentinel</span>
           </h1>
-          <p className="text-xl text-gray-400">
-            Proactive AI Shield against Deepfake Sextortion & Blackmail
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            Advanced digital threat detection and rapid incident response platform.
           </p>
         </div>
 
