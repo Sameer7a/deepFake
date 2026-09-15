@@ -49,6 +49,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [blockModalState, setBlockModalState] = useState<'hidden' | 'input' | 'blocking' | 'success'>('hidden');
+  const [callModalState, setCallModalState] = useState<'hidden' | 'connecting' | 'connected'>('hidden');
   const [attackerId, setAttackerId] = useState('');
   const [reportAttacker, setReportAttacker] = useState('');
 
@@ -481,16 +482,18 @@ export default function Home() {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
                 File Online Complaint
               </button>
-              
-              <a 
-                href="tel:1930"
+              <button 
+                onClick={() => {
+                  setCallModalState('connecting');
+                  setTimeout(() => setCallModalState('connected'), 3000);
+                }}
                 className="bg-red-600 text-white px-4 py-2 rounded font-bold hover:bg-red-700 transition-colors w-full sm:w-auto flex items-center justify-center gap-2"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
                 Call Helpline (1930)
-              </a>
+              </button>
             </div>
 
           </div>
@@ -574,6 +577,58 @@ export default function Home() {
                   className="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-200 transition-colors"
                 >
                   Return to Dashboard
+                </button>
+              </div>
+            )}
+
+          </div>
+        </div>
+      )}
+
+      {/* Call Helpline Modal */}
+      {callModalState !== 'hidden' && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 backdrop-blur-sm animate-fade-in-up">
+          <div className="bg-gray-900 border border-red-500/50 p-8 rounded-2xl shadow-2xl max-w-lg w-full text-center">
+            
+            {callModalState === 'connecting' && (
+              <div className="py-8">
+                <div className="relative w-24 h-24 mx-auto mb-6">
+                  <div className="absolute inset-0 border-4 border-red-500/20 rounded-full animate-ping"></div>
+                  <div className="absolute inset-2 border-4 border-red-500/40 rounded-full animate-pulse"></div>
+                  <div className="absolute inset-4 border-4 border-red-500 rounded-full flex items-center justify-center bg-red-500 text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                    </svg>
+                  </div>
+                </div>
+                <h2 className="text-2xl font-bold text-white mb-2">Establishing Secure Line...</h2>
+                <p className="text-gray-400">Connecting directly to the National Cyber Crime Helpline (1930) and local jurisdiction cell...</p>
+              </div>
+            )}
+
+            {callModalState === 'connected' && (
+              <div className="py-8 animate-fade-in-up">
+                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center border-4 border-green-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-white mb-2">Secure Connection Established</h2>
+                <p className="text-gray-300 mb-6">
+                  You are now connected to the Officer on Duty. They are receiving your real-time RAKSHA AI threat assessment payload.
+                </p>
+                <div className="bg-gray-950 p-4 rounded-xl border border-gray-800 mb-8 inline-block">
+                  <p className="text-red-500 font-mono text-xl animate-pulse">00:03</p>
+                  <p className="text-xs text-gray-500 mt-1 uppercase">Live Call Duration</p>
+                </div>
+                <button 
+                  onClick={() => setCallModalState('hidden')}
+                  className="w-full bg-red-600 text-white font-bold py-3 rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.415-1.414L6.524 5.11a6 6 0 018.368 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clipRule="evenodd" />
+                  </svg>
+                  Disconnect Secure Line
                 </button>
               </div>
             )}
