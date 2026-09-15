@@ -53,6 +53,8 @@ export default function Home() {
   const [attackerId, setAttackerId] = useState('');
   const [reportAttacker, setReportAttacker] = useState('');
   const [showProfile, setShowProfile] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showReportsModal, setShowReportsModal] = useState(false);
 
   const finalizeAuth = (isRegistering: boolean, finalUserName: string, userEmail: string, userPass: string) => {
     if (isRegistering) {
@@ -359,11 +361,17 @@ export default function Home() {
                   <p className="text-xs text-gray-400 mt-1">{email || "Account Verified"}</p>
                 </div>
                 <div className="p-2 space-y-1">
-                  <button className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded transition-colors flex items-center gap-2">
+                  <button 
+                    onClick={() => { setShowSettingsModal(true); setShowProfile(false); }}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded transition-colors flex items-center gap-2"
+                  >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287-.947c.886.539 2.041.06 2.287-.947 1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" /></svg>
                     Account Settings
                   </button>
-                  <button className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded transition-colors flex items-center gap-2">
+                  <button 
+                    onClick={() => { setShowReportsModal(true); setShowProfile(false); }}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded transition-colors flex items-center gap-2"
+                  >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" clipRule="evenodd" /><path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" /></svg>
                     My Threat Reports
                   </button>
@@ -679,6 +687,80 @@ export default function Home() {
               </div>
             )}
 
+          </div>
+        </div>
+      )}
+
+      {/* Account Settings Modal */}
+      {showSettingsModal && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-[60] backdrop-blur-sm animate-fade-in-up">
+          <div className="bg-gray-900 border border-gray-700 p-6 rounded-2xl shadow-2xl max-w-md w-full">
+            <h2 className="text-xl font-bold text-white border-b border-gray-800 pb-4 mb-4 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              Account Settings
+            </h2>
+            <div className="space-y-4">
+              <div>
+                <label className="text-xs text-gray-500 uppercase font-bold tracking-wider">Full Name</label>
+                <div className="bg-black/50 border border-gray-800 rounded p-3 text-white mt-1">{storedName}</div>
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 uppercase font-bold tracking-wider">Contact Identifier</label>
+                <div className="bg-black/50 border border-gray-800 rounded p-3 text-white mt-1">{email || "Verified Secure"}</div>
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 uppercase font-bold tracking-wider">Security Level</label>
+                <div className="bg-black/50 border border-gray-800 rounded p-3 text-green-400 mt-1 flex items-center gap-2">
+                  <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span>
+                  Maximum Protection (Active)
+                </div>
+              </div>
+            </div>
+            <button 
+              onClick={() => setShowSettingsModal(false)}
+              className="mt-6 w-full bg-gray-800 hover:bg-gray-700 text-white py-3 rounded-lg font-bold transition-colors"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* My Threat Reports Modal */}
+      {showReportsModal && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-[60] backdrop-blur-sm animate-fade-in-up">
+          <div className="bg-gray-900 border border-gray-700 p-6 rounded-2xl shadow-2xl max-w-lg w-full">
+            <h2 className="text-xl font-bold text-white border-b border-gray-800 pb-4 mb-4 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
+              My Threat Reports
+            </h2>
+            
+            <div className="space-y-3 max-h-64 overflow-y-auto pr-2">
+              <div className="bg-black/50 border border-gray-800 p-4 rounded-xl">
+                <div className="flex justify-between items-start mb-2">
+                  <span className="bg-red-500/20 text-red-500 text-xs px-2 py-1 rounded font-bold">HIGH RISK</span>
+                  <span className="text-xs text-gray-500">Today, 10:42 AM</span>
+                </div>
+                <p className="text-white text-sm font-semibold mb-1">Deepfake Extortion Attempt</p>
+                <p className="text-xs text-gray-400">Media mapped to user profile. 99% AI signature detected. Reported to portal.</p>
+              </div>
+              
+              <div className="bg-black/50 border border-gray-800 p-4 rounded-xl opacity-50">
+                <div className="flex justify-between items-start mb-2">
+                  <span className="bg-green-500/20 text-green-500 text-xs px-2 py-1 rounded font-bold">RESOLVED</span>
+                  <span className="text-xs text-gray-500">Oct 12, 2026</span>
+                </div>
+                <p className="text-white text-sm font-semibold mb-1">Suspicious Link Analysis</p>
+                <p className="text-xs text-gray-400">Phishing attempt blocked via RAKSHA interceptor.</p>
+              </div>
+            </div>
+
+            <button 
+              onClick={() => setShowReportsModal(false)}
+              className="mt-6 w-full bg-gray-800 hover:bg-gray-700 text-white py-3 rounded-lg font-bold transition-colors"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
