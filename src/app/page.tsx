@@ -47,11 +47,13 @@ export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [result, setResult] = useState<any>(null);
   const [blockModalState, setBlockModalState] = useState<'hidden' | 'input' | 'blocking' | 'success'>('hidden');
   const [callModalState, setCallModalState] = useState<'hidden' | 'connecting' | 'connected'>('hidden');
   const [attackerId, setAttackerId] = useState('');
   const [reportAttacker, setReportAttacker] = useState('');
+  const [reportId, setReportId] = useState('');
   const [showProfile, setShowProfile] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showReportsModal, setShowReportsModal] = useState(false);
@@ -479,7 +481,7 @@ export default function Home() {
                   {result.extortion_score}%
                 </span>
                 {result.reasoning && (
-                   <p className="text-xs text-gray-500 mt-2 italic px-2">"{result.reasoning}"</p>
+                   <p className="text-xs text-gray-500 mt-2 italic px-2">&quot;{result.reasoning}&quot;</p>
                 )}
               </div>
             </div>
@@ -519,6 +521,7 @@ export default function Home() {
                   const info = prompt("Please enter the attacker's phone number, email, or username to include in the Official Report:");
                   if (info !== null) {
                     setReportAttacker(info || 'Not provided');
+                    setReportId(`RAK-${Math.floor(Math.random() * 1000000)}`);
                     setTimeout(() => window.print(), 500);
                   }
                 }}
@@ -569,7 +572,7 @@ export default function Home() {
                   <h2 className="text-2xl font-bold">Block Attacker</h2>
                 </div>
                 <p className="text-gray-300 mb-6">
-                  Enter the attacker's username, email, or phone number to permanently block them across all integrated Meta platforms (WhatsApp, Instagram, Facebook).
+                  Enter the attacker&apos;s username, email, or phone number to permanently block them across all integrated Meta platforms (WhatsApp, Instagram, Facebook).
                 </p>
                 <input 
                   type="text" 
@@ -784,7 +787,7 @@ export default function Home() {
             <div><strong>Reporting User:</strong> {storedName}</div>
             <div><strong>Attacker Details:</strong> {reportAttacker}</div>
             <div><strong>Platform:</strong> Meta (Cross-Network)</div>
-            <div><strong>Report ID:</strong> RAK-{Math.floor(Math.random() * 1000000)}</div>
+            <div><strong>Report ID:</strong> {reportId || 'PENDING'}</div>
           </div>
         </div>
 

@@ -8,7 +8,7 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 // Listen for clicks on the context menu
-chrome.contextMenus.onClicked.addListener((info, tab) => {
+chrome.contextMenus.onClicked.addListener((info) => {
   if (info.menuItemId === "scanWithRaksha") {
     // URL of the live deployed Vercel app
     const rakshaUrl = "https://frontend-brwr.vercel.app";
@@ -19,6 +19,6 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 });
 
 // Also open the dashboard if the user clicks the extension icon in the toolbar
-chrome.action.onClicked.addListener((tab) => {
+chrome.action.onClicked.addListener(() => {
   chrome.tabs.create({ url: "https://frontend-brwr.vercel.app" });
 });
