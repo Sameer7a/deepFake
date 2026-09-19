@@ -191,7 +191,7 @@ export default function Home() {
       
       // Auto-scroll to results after DOM updates
       setTimeout(() => {
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        document.getElementById('results-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
     } catch (error) {
       console.error(error);
@@ -469,7 +469,7 @@ export default function Home() {
 
         {/* Results Section */}
         {result && (
-          <div className="w-full bg-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-800 space-y-6 animate-fade-in-up">
+          <div id="results-section" className="w-full bg-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-800 space-y-6 animate-fade-in-up">
             <h2 className="text-3xl font-bold text-white text-center">Threat Assessment</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
