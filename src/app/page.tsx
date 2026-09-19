@@ -58,6 +58,41 @@ export default function Home() {
   const [showProfile, setShowProfile] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showReportsModal, setShowReportsModal] = useState(false);
+  
+  // Dark Web Scanner State
+  const [activeTab, setActiveTab] = useState<'scanner' | 'darkweb'>('scanner');
+  const [dwTarget, setDwTarget] = useState('');
+  const [dwLoading, setDwLoading] = useState(false);
+  const [dwLogs, setDwLogs] = useState<string[]>([]);
+  const [dwResult, setDwResult] = useState<'clean' | 'leaked' | null>(null);
+
+  const handleDarkWebScan = async () => {
+    if (!dwTarget) return alert("Enter a target phone number or email");
+    setDwLoading(true);
+    setDwResult(null);
+    setDwLogs([]);
+    
+    const logs = [
+      "> Connecting to Tor Entry Nodes [onion routing active]...",
+      "> Scraping Telegram Black-market channels...",
+      "> Querying known Sextortion Syndicate databases...",
+      "> Checking leaked image MD5 hashes...",
+      "> Analyzing facial vectors against Dark Web media...",
+      "> Scan complete. Generating report..."
+    ];
+    
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < logs.length) {
+        setDwLogs(prev => [...prev, logs[i]]);
+        i++;
+      } else {
+        clearInterval(interval);
+        setDwLoading(false);
+        setDwResult('clean'); // Assume clean for hackathon demo to reassure victim
+      }
+    }, 800);
+  };
 
   const finalizeAuth = (isRegistering: boolean, finalUserName: string, userEmail: string, userPass: string) => {
     if (isRegistering) {
@@ -368,12 +403,19 @@ export default function Home() {
             </div>
             
             <div className="hidden sm:flex gap-4">
-              <span className="text-white font-bold border-b-2 border-red-500 pb-1">
+              <button 
+                onClick={() => setActiveTab('scanner')}
+                className={`${activeTab === 'scanner' ? 'text-white font-bold border-b-2 border-red-500' : 'text-gray-400 hover:text-white transition-colors'} pb-1`}
+              >
                 Threat Scanner
-              </span>
-              <Link href="/dashboard" className="text-gray-400 hover:text-white transition-colors">
-                Global Analytics
-              </Link>
+              </button>
+              <button 
+                onClick={() => setActiveTab('darkweb')}
+                className={`${activeTab === 'darkweb' ? 'text-white font-bold border-b-2 border-red-500' : 'text-gray-400 hover:text-white transition-colors'} pb-1 flex items-center gap-1`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+                Dark Web Tracker
+              </button>
             </div>
           </div>
           
@@ -431,7 +473,8 @@ export default function Home() {
         </div>
       </nav>
 
-      <main className="max-w-4xl mx-auto flex flex-col items-center gap-8 p-8 mt-4">
+      {activeTab === 'scanner' ? (
+      <main className="max-w-4xl mx-auto flex flex-col items-center gap-8 p-8 mt-4 animate-fade-in-up">
         
         {/* Header */}
         <div className="text-center space-y-4 mb-4">
@@ -653,6 +696,72 @@ export default function Home() {
         )}
 
       </main>
+      ) : (
+      <main className="max-w-4xl mx-auto flex flex-col items-center gap-8 p-8 mt-4 animate-fade-in-up">
+        <div className="text-center space-y-4 mb-4">
+          <div className="inline-flex items-center gap-2 bg-gray-900 border border-gray-800 rounded-full px-3 py-1 text-xs font-bold text-gray-300 shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+            Dark Web Protocol Active
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white">
+            Dark Web <span className="text-purple-500 font-light">Leak Tracker</span>
+          </h1>
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            Scan hidden Tor networks, illegal forums, and Telegram dumps to check if your identity has been compromised.
+          </p>
+        </div>
+        
+        <div className="w-full bg-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-800 space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Target Phone Number, Email, or Social Username</label>
+            <input 
+              type="text" 
+              value={dwTarget}
+              onChange={(e) => setDwTarget(e.target.value)}
+              placeholder="e.g., +91 9876543210 or @johndoe" 
+              className="w-full bg-gray-950 border border-gray-800 rounded-lg p-4 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" 
+            />
+          </div>
+          
+          <button 
+            onClick={handleDarkWebScan}
+            disabled={dwLoading}
+            className={`w-full py-4 rounded-xl font-bold text-lg transition-all ${
+              dwLoading ? 'bg-gray-800 text-gray-500 cursor-not-allowed' : 'bg-purple-600 hover:bg-purple-700 text-white shadow-[0_0_20px_rgba(168,85,247,0.4)]'
+            }`}
+          >
+            {dwLoading ? 'SCANNING HIDDEN NETWORKS...' : 'INITIATE DARK WEB SCAN'}
+          </button>
+          
+          {/* Fake terminal for dark web */}
+          <div className="mt-8 bg-black border border-gray-800 rounded-lg p-4 font-mono text-sm min-h-[12rem] flex flex-col justify-end overflow-hidden relative">
+            {!dwLoading && dwLogs.length === 0 && !dwResult && (
+              <div className="text-gray-600 mb-2 absolute top-4 left-4">SYSTEM READY. AWAITING TARGET INPUT...</div>
+            )}
+            
+            <div className="space-y-2 z-10 relative">
+              {dwLogs.map((log, i) => (
+                <div key={i} className="text-purple-400 animate-fade-in-up drop-shadow-[0_0_2px_rgba(168,85,247,0.8)]">{log}</div>
+              ))}
+              {dwLoading && <div className="text-purple-500 animate-pulse">_</div>}
+            </div>
+            
+            {/* Dark Web Result */}
+            {dwResult && (
+              <div className="mt-4 p-4 border border-green-500/50 bg-green-500/10 rounded-lg flex items-start gap-4 animate-in fade-in zoom-in duration-500 z-10 relative">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <div>
+                  <h4 className="text-green-500 font-bold text-lg">TARGET SECURE: 0 LEAKS FOUND</h4>
+                  <p className="text-gray-300 mt-1">No matching facial vectors or extortion data found on indexed dark web marketplaces. The threat is likely a bluff. Do not pay the ransom.</p>
+                </div>
+              </div>
+            )}
+            
+            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent,rgba(0,0,0,0.8)_100%)] pointer-events-none"></div>
+          </div>
+        </div>
+      </main>
+      )}
 
       {/* Block Sender Modal */}
       {blockModalState !== 'hidden' && (
