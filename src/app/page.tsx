@@ -47,6 +47,7 @@ export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
+  const [scanLogs, setScanLogs] = useState<string[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [result, setResult] = useState<any>(null);
   const [blockModalState, setBlockModalState] = useState<'hidden' | 'input' | 'blocking' | 'success'>('hidden');
@@ -171,16 +172,41 @@ export default function Home() {
     
     setLoading(true);
     setResult(null);
+    setScanLogs([]);
+    
+    // Simulate cinematic terminal animation logs
+    const stages = [
+      '> Initializing deep neural network...',
+      '> Extracting metadata & EXIF parameters...',
+      '> Running NLP sentiment analysis...',
+      '> Cross-referencing dark web signatures...',
+      '> Calculating extortion intent probability...',
+      '> Finalizing threat assessment...'
+    ];
+    
+    let currentLog = 0;
+    const logInterval = setInterval(() => {
+      if (currentLog < stages.length) {
+        setScanLogs(prev => [...prev, stages[currentLog]]);
+        currentLog++;
+      }
+    }, 600);
     
     try {
       const formData = new FormData();
       if (file) formData.append('image', file);
       formData.append('text_message', text);
 
-      const response = await fetch('/api/analyze', {
-        method: 'POST',
-        body: formData,
-      });
+      // Force a minimum 4-second delay so the animation completes beautifully
+      const [response] = await Promise.all([
+        fetch('/api/analyze', {
+          method: 'POST',
+          body: formData,
+        }),
+        new Promise(r => setTimeout(r, 4000))
+      ]);
+      
+      clearInterval(logInterval);
 
       if (!response.ok) {
         throw new Error('Analysis failed.');
@@ -194,6 +220,7 @@ export default function Home() {
         document.getElementById('results-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
     } catch (error) {
+      clearInterval(logInterval);
       console.error(error);
       alert('Error connecting to backend. Is it running?');
     } finally {
@@ -471,6 +498,34 @@ export default function Home() {
             {loading ? 'ANALYZING THREAT LEVEL...' : 'SCAN & ANALYZE NOW'}
           </button>
         </div>
+
+        {/* Deep Scan Cinematic Overlay */}
+        {loading && (
+          <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90 backdrop-blur-sm animate-in fade-in duration-300">
+            <div className="w-full max-w-2xl bg-gray-950 border border-red-500/30 shadow-[0_0_50px_rgba(239,68,68,0.15)] rounded-2xl p-8 font-mono relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1 bg-red-500/20">
+                <div className="h-full bg-red-500 animate-pulse w-full"></div>
+              </div>
+              
+              <div className="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                </span>
+                <h3 className="text-red-500 text-xl font-bold tracking-widest uppercase">Executing Deep Scan...</h3>
+              </div>
+              
+              <div className="space-y-3 min-h-[12rem] flex flex-col justify-end">
+                {scanLogs.map((log, index) => (
+                  <div key={index} className="text-green-500 text-sm md:text-base animate-fade-in-up">
+                    {log}
+                  </div>
+                ))}
+                <div className="text-green-500 animate-pulse">_</div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Results Section */}
         {result && (
