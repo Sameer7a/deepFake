@@ -321,7 +321,8 @@ export default function Home() {
 
   // --- MAIN DASHBOARD SCREEN ---
   return (
-    <div className="min-h-screen bg-gray-950 text-white font-sans print:hidden">
+    <>
+      <div className="min-h-screen bg-gray-950 text-white font-sans print:hidden">
       
       {/* Top Navigation Bar */}
       <nav className="w-full border-b border-gray-800 bg-gray-900/50 p-4 sticky top-0 z-10 backdrop-blur-md">
@@ -767,6 +768,8 @@ export default function Home() {
           </div>
         </div>
       )}
+      
+      </div>
 
       {/* Official PDF Report (Only visible when printing) */}
       <div className="hidden print:block absolute top-0 left-0 w-full bg-white text-black p-8 z-[100] min-h-screen">
@@ -852,6 +855,6 @@ export default function Home() {
         </div>
       </div>
 
-    </div>
+    </>
   );
 }
