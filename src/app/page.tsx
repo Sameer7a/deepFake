@@ -61,11 +61,11 @@ export default function Home() {
 
   useEffect(() => {
     const threats = [
-      'Deepfake detected in New Delhi... Neutralized',
-      'Extortion attempt blocked in Bangalore',
-      'Suspicious Voice Note flagged in Mumbai',
-      'Phishing link intercepted in Pune',
-      'AI-generated image rejected in Hyderabad'
+      'Case #8921-DL logged: Identity Theft',
+      'FIR #102-MH filed: Financial Extortion',
+      'Nodal Agency Sync: 4 active queries',
+      'Verification pending: Case #4412-KA',
+      'Alert: Routine maintenance on Gateway 3'
     ];
     let i = 0;
     const interval = setInterval(() => {
@@ -444,11 +444,11 @@ export default function Home() {
         <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 mb-2 animate-fade-in-up">
           <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-lg">
             <span className="text-3xl font-black text-white">14,203</span>
-            <span className="text-xs text-gray-500 uppercase tracking-widest mt-1 font-bold">Scans Today</span>
+            <span className="text-xs text-gray-500 uppercase tracking-widest mt-1 font-bold">Cases Processed</span>
           </div>
           <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-lg">
-            <span className="text-3xl font-black text-green-500">98.2%</span>
-            <span className="text-xs text-gray-500 uppercase tracking-widest mt-1 font-bold">Accuracy Rate</span>
+            <span className="text-3xl font-black text-green-500">99.9%</span>
+            <span className="text-xs text-gray-500 uppercase tracking-widest mt-1 font-bold">System Uptime</span>
           </div>
           <div className="bg-gray-900 border border-red-500/30 rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-[0_0_15px_rgba(239,68,68,0.1)] relative overflow-hidden">
             <div className="absolute inset-0 bg-red-500/5 animate-pulse"></div>
@@ -457,7 +457,7 @@ export default function Home() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
               </span>
-              <span className="text-xs text-red-400 font-bold uppercase tracking-widest z-10">Live Network Feed</span>
+              <span className="text-xs text-red-400 font-bold uppercase tracking-widest z-10">System Event Log</span>
             </div>
             <span className="text-sm text-gray-300 font-mono z-10 transition-opacity duration-500" key={liveThreat}>
               &gt; {liveThreat}
