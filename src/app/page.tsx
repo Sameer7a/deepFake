@@ -188,6 +188,11 @@ export default function Home() {
 
       const data = await response.json();
       setResult(data);
+      
+      // Auto-scroll to results after DOM updates
+      setTimeout(() => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      }, 100);
     } catch (error) {
       console.error(error);
       alert('Error connecting to backend. Is it running?');
