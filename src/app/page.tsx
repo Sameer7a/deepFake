@@ -89,7 +89,12 @@ export default function Home() {
       } else {
         clearInterval(interval);
         setDwLoading(false);
-        setDwResult('clean'); // Assume clean for hackathon demo to reassure victim
+        const lowerTarget = dwTarget.toLowerCase();
+        if (lowerTarget.includes('leak') || lowerTarget.includes('scam')) {
+          setDwResult('leaked');
+        } else {
+          setDwResult('clean');
+        }
       }
     }, 800);
   };
@@ -747,12 +752,25 @@ export default function Home() {
             </div>
             
             {/* Dark Web Result */}
-            {dwResult && (
+            {dwResult === 'clean' && (
               <div className="mt-4 p-4 border border-green-500/50 bg-green-500/10 rounded-lg flex items-start gap-4 animate-in fade-in zoom-in duration-500 z-10 relative">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 <div>
                   <h4 className="text-green-500 font-bold text-lg">TARGET SECURE: 0 LEAKS FOUND</h4>
                   <p className="text-gray-300 mt-1">No matching facial vectors or extortion data found on indexed dark web marketplaces. The threat is likely a bluff. Do not pay the ransom.</p>
+                </div>
+              </div>
+            )}
+            
+            {dwResult === 'leaked' && (
+              <div className="mt-4 p-4 border border-red-500/50 bg-red-500/10 rounded-lg flex items-start gap-4 animate-in fade-in zoom-in duration-500 z-10 relative">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                <div>
+                  <h4 className="text-red-500 font-bold text-lg">WARNING: 1 POTENTIAL LEAK DETECTED</h4>
+                  <p className="text-gray-300 mt-1">Matching facial vectors found on a hidden Telegram dump. We strongly advise initiating the Takedown Protocol immediately.</p>
+                  <button className="mt-3 bg-red-600 text-white px-4 py-2 rounded font-bold text-sm hover:bg-red-700 transition-colors">
+                    INITIATE TAKEDOWN REQUEST
+                  </button>
                 </div>
               </div>
             )}
