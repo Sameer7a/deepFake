@@ -428,10 +428,11 @@ export default function Home() {
           
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              1. Upload Suspicious Media (Image/Video)
+              1. Upload Suspicious Media (Image / Video / Audio)
             </label>
             <input 
               type="file" 
+              accept="image/*,video/*,audio/*"
               onChange={handleFileChange}
               className="block w-full text-sm text-gray-400
                 file:mr-4 file:py-2 file:px-4
@@ -817,6 +818,12 @@ export default function Home() {
                 <div className="bg-white border border-gray-200 p-2 rounded inline-block">
                   {file.type.startsWith('image/') ? (
                     <img src={URL.createObjectURL(file)} alt="Evidence" className="max-h-64 object-contain" />
+                  ) : file.type.startsWith('audio/') ? (
+                    <div className="flex flex-col items-center p-4 bg-gray-50 rounded">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+                      <audio controls src={URL.createObjectURL(file)} className="mt-2" />
+                      <span className="text-xs text-gray-500 mt-2">[ Audio Voice Note Evidence ]</span>
+                    </div>
                   ) : (
                     <div className="p-4 bg-gray-50 text-gray-500 text-center">[ {file.type || 'Document'} File attached to official digital record ]</div>
                   )}
