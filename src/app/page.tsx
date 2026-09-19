@@ -426,33 +426,37 @@ export default function Home() {
         {/* Input Section */}
         <div className="w-full bg-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-800 space-y-6">
           
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              1. Upload Suspicious Media (Image / Video / Audio)
-            </label>
-            <input 
-              type="file" 
-              accept="image/*,video/*,audio/*"
-              onChange={handleFileChange}
-              className="block w-full text-sm text-gray-400
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-full file:border-0
-                file:text-sm file:font-semibold
-                file:bg-red-500/10 file:text-red-500
-                hover:file:bg-red-500/20 cursor-pointer"
-            />
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex flex-col h-full">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                1. Upload Suspicious Media (Image / Video / Audio)
+              </label>
+              <div className="flex-1 border-2 border-dashed border-gray-700 rounded-lg bg-gray-950 flex flex-col justify-center p-4 hover:border-red-500/50 transition-colors">
+                <input 
+                  type="file" 
+                  accept="image/*,video/*,audio/*"
+                  onChange={handleFileChange}
+                  className="block w-full text-sm text-gray-400
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-red-500/10 file:text-red-500
+                    hover:file:bg-red-500/20 cursor-pointer"
+                />
+              </div>
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              2. Paste Threatening Message
-            </label>
-            <textarea 
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="e.g., Pay me $500 or I will leak this photo to your contacts..."
-              className="w-full h-32 bg-gray-950 border border-gray-800 rounded-lg p-4 text-gray-200 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-            />
+            <div className="flex flex-col h-full">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                2. Paste Threatening Message
+              </label>
+              <textarea 
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="e.g., Pay me $500 or I will leak this photo to your contacts..."
+                className="flex-1 w-full bg-gray-950 border border-gray-800 rounded-lg p-4 text-gray-200 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500 resize-none min-h-[8rem]"
+              />
+            </div>
           </div>
 
           <button 
