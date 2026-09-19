@@ -1014,7 +1014,7 @@ export default function Home() {
       )}
       
       {/* Mobile Bottom Navigation Bar */}
-      <div className="sm:hidden fixed bottom-0 left-0 w-full bg-gray-950/90 backdrop-blur-xl border-t border-gray-800 flex justify-around items-center p-3 pb-6 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] z-[45]">
+      <div className="fixed bottom-0 left-0 w-full bg-gray-950/90 backdrop-blur-xl border-t border-gray-800 flex justify-around items-center p-3 pb-6 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] z-[45]">
         <button 
           onClick={() => setActiveTab('scanner')}
           className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'scanner' ? 'text-red-500' : 'text-gray-500'}`}
