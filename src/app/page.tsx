@@ -501,29 +501,59 @@ export default function Home() {
 
         {/* Deep Scan Cinematic Overlay */}
         {loading && (
-          <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90 backdrop-blur-sm animate-in fade-in duration-300">
-            <div className="w-full max-w-2xl bg-gray-950 border border-red-500/30 shadow-[0_0_50px_rgba(239,68,68,0.15)] rounded-2xl p-8 font-mono relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-1 bg-red-500/20">
-                <div className="h-full bg-red-500 animate-pulse w-full"></div>
-              </div>
+          <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/95 backdrop-blur-md animate-in fade-in duration-300">
+            
+            {/* Massive Glowing Centerpiece */}
+            <div className="relative mb-12">
+              {/* Pulse background glow */}
+              <div className="absolute inset-0 bg-red-600/20 blur-[100px] rounded-full animate-pulse"></div>
               
-              <div className="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
+              <div className="relative w-48 h-48 border-4 border-red-900 rounded-full flex items-center justify-center overflow-hidden bg-gray-950 shadow-[0_0_50px_rgba(220,38,38,0.3)]">
+                {/* Rotating scanner ring */}
+                <div className="absolute inset-0 border-t-4 border-red-500 rounded-full animate-[spin_2s_linear_infinite]"></div>
+                
+                {/* Shield / Biometric Icon */}
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-red-500 z-10 animate-pulse drop-shadow-[0_0_15px_rgba(220,38,38,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                
+                {/* Sweeping Laser Line (handled by inline style below) */}
+                <div className="absolute left-0 w-full h-[2px] bg-white shadow-[0_0_15px_rgba(255,255,255,1)] z-20 scanner-laser"></div>
+              </div>
+            </div>
+
+            {/* Terminal Window Below */}
+            <div className="w-full max-w-2xl bg-gray-900/80 border border-gray-800 shadow-[0_0_30px_rgba(0,0,0,0.8)] rounded-xl p-6 font-mono relative overflow-hidden backdrop-blur-xl">
+              
+              <div className="flex items-center gap-3 mb-6 border-b border-gray-700 pb-4">
                 <span className="relative flex h-3 w-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                 </span>
-                <h3 className="text-red-500 text-xl font-bold tracking-widest uppercase">Executing Deep Scan...</h3>
+                <h3 className="text-red-500 text-xl font-bold tracking-widest uppercase">Deep Threat Analysis in Progress</h3>
               </div>
               
-              <div className="space-y-3 min-h-[12rem] flex flex-col justify-end">
+              <div className="space-y-3 min-h-[10rem] flex flex-col justify-end">
                 {scanLogs.map((log, index) => (
-                  <div key={index} className="text-green-500 text-sm md:text-base animate-fade-in-up">
+                  <div key={index} className="text-green-400 text-sm md:text-base animate-fade-in-up drop-shadow-[0_0_5px_rgba(74,222,128,0.5)] font-semibold">
                     {log}
                   </div>
                 ))}
-                <div className="text-green-500 animate-pulse">_</div>
+                <div className="text-green-500 animate-pulse text-lg">_</div>
               </div>
             </div>
+            
+            {/* Inline styles for the custom laser scan animation */}
+            <style dangerouslySetInnerHTML={{__html: `
+              @keyframes scan-laser {
+                0%, 100% { top: 0%; opacity: 0; }
+                10%, 90% { opacity: 1; }
+                50% { top: 100%; }
+              }
+              .scanner-laser {
+                animation: scan-laser 2s ease-in-out infinite;
+              }
+            `}} />
           </div>
         )}
 
