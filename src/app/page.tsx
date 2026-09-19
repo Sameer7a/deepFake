@@ -321,7 +321,7 @@ export default function Home() {
 
   // --- MAIN DASHBOARD SCREEN ---
   return (
-    <div className="min-h-screen bg-gray-950 text-white font-sans">
+    <div className="min-h-screen bg-gray-950 text-white font-sans print:hidden">
       
       {/* Top Navigation Bar */}
       <nav className="w-full border-b border-gray-800 bg-gray-900/50 p-4 sticky top-0 z-10 backdrop-blur-md">
@@ -788,6 +788,36 @@ export default function Home() {
             <div><strong>Attacker Details:</strong> {reportAttacker}</div>
             <div><strong>Platform:</strong> Meta (Cross-Network)</div>
             <div><strong>Report ID:</strong> {reportId || 'PENDING'}</div>
+          </div>
+        </div>
+
+        <div className="mb-8 bg-gray-100 p-6 rounded-lg border border-gray-300">
+          <h2 className="text-xl font-bold border-b border-gray-300 pb-2 mb-4">Evidentiary Material</h2>
+          <div className="space-y-4">
+            {text && (
+              <div>
+                <strong className="text-sm">Threatening Message / Transcript:</strong>
+                <p className="mt-2 bg-white border border-gray-200 p-4 rounded text-sm italic">
+                  &quot;{text}&quot;
+                </p>
+              </div>
+            )}
+            {file && (
+              <div>
+                <strong className="text-sm">Media File Associated with Threat:</strong>
+                <p className="text-xs text-gray-500 mb-2">Filename: {file.name}</p>
+                <div className="bg-white border border-gray-200 p-2 rounded inline-block">
+                  {file.type.startsWith('image/') ? (
+                    <img src={URL.createObjectURL(file)} alt="Evidence" className="max-h-64 object-contain" />
+                  ) : (
+                    <div className="p-4 bg-gray-50 text-gray-500 text-center">[ {file.type || 'Document'} File attached to official digital record ]</div>
+                  )}
+                </div>
+              </div>
+            )}
+            {!text && !file && (
+              <p className="text-sm text-gray-500 italic">No media or text was provided during this scan.</p>
+            )}
           </div>
         </div>
 
