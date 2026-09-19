@@ -66,6 +66,7 @@ export default function Home() {
   const [dwLogs, setDwLogs] = useState<string[]>([]);
   const [dwResult, setDwResult] = useState<'clean' | 'leaked' | null>(null);
   const [dwFile, setDwFile] = useState<File | null>(null);
+  const [dwEvidenceText, setDwEvidenceText] = useState('');
 
   const handleDarkWebScan = async () => {
     if (!dwTarget) return alert("Enter a target phone number or email");
@@ -77,8 +78,8 @@ export default function Home() {
       "> Connecting to Tor Entry Nodes [onion routing active]...",
       "> Scraping Telegram Black-market channels...",
       "> Querying known Sextortion Syndicate databases...",
-      dwFile ? `> Extracting digital fingerprint from uploaded evidence (${dwFile.name})...` : "> Checking leaked image MD5 hashes...",
-      dwFile ? "> Cross-referencing evidence against indexed Dark Web media..." : "> Analyzing facial vectors against Dark Web media...",
+      (dwFile || dwEvidenceText) ? `> Extracting digital fingerprint from provided evidence...` : "> Checking leaked image MD5 hashes...",
+      (dwFile || dwEvidenceText) ? "> Cross-referencing evidence against indexed Dark Web media..." : "> Analyzing facial vectors against Dark Web media...",
       "> Scan complete. Generating report..."
     ];
     
@@ -730,15 +731,21 @@ export default function Home() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Upload Threat Evidence (Optional)</label>
-              <div className="relative">
+              <label className="block text-sm font-medium text-gray-300 mb-2">Upload Threat Evidence (File or Text/URL)</label>
+              <div className="relative space-y-3">
                 <input 
                   type="file" 
                   accept="image/*,video/*,audio/*"
                   onChange={(e) => setDwFile(e.target.files ? e.target.files[0] : null)}
                   className="w-full bg-gray-950 border border-gray-800 rounded-lg p-3 text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white hover:file:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer h-full" 
                 />
-                <p className="text-xs text-gray-500 mt-2">Upload the image, audio, or video sent by the scammer to cross-reference its digital fingerprint against dark web dumps.</p>
+                <textarea
+                  value={dwEvidenceText}
+                  onChange={(e) => setDwEvidenceText(e.target.value)}
+                  placeholder="Or paste the scammer's text message or malicious URL here..."
+                  className="w-full bg-gray-950 border border-gray-800 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none h-20"
+                ></textarea>
+                <p className="text-xs text-gray-500 mt-2">Provide the exact file, message, or URL sent by the scammer to cross-reference its digital fingerprint against dark web dumps.</p>
               </div>
             </div>
           </div>
